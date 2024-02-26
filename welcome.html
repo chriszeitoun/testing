@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Chaine D'alerte Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        #container {
+            margin-top: 50px;
+        }
+        
+        #logo {
+            max-width: 100%;
+            height: auto;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .welcome-btn {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            width: 200px
+        }
+
+        .welcome-btn:hover {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Welcome to Chaine D'alerte Generator</h1>
+        <img id="logo" src="logo.png" alt="Logo">
+        <div>
+            <button class="welcome-btn" onclick="generate()">Generate chaine d'alerte</button>
+            <button class="welcome-btn" onclick="navigateToPage2()">Chaine d'alerte trees</button>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            // Your generation logic goes here
+            // For example, you can show prompts or generate content dynamically
+            // After generating content, navigate to the main page
+            window.location.href = "final.html";
+        }
+
+        function navigateToPage2() {
+            window.location.href = "page2.html";
+        }
+    </script>
+</body>
+</html>
