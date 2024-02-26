@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaine D'alerte Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+        }
+        
+        #welcome-page{
+            text-align: center;
+            margin-top: -100px;
+
+        }
+        
+        #data-entry-page{
+            text-align: center;
+            padding-top: 10%;
+            max-width: 90%;
+        }
+
+        #logo {
+            width: 120%; /* Adjust the size of the logo here */
+            max-width: 400px; /* Set a max-width for larger screens */
+            height: auto;
+            margin-bottom: 20px;
+
+        }
+
+
+
+
+
+        h1 {
+            margin-bottom: 10px;
+            margin-top: 20%;
+        }
+
+      
+        
+        button {
+            background-color: darkgrey; /* Dark blue color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button.green {
+            background-color: green; /* Green color */
+        }
+
+        button:hover {
+            background-color: black; /* Darker blue color on hover */
+        }
+
+        /* Style for the generated table */
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #333;
+            color: black;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+        }
+
+        .button-container button {
+            flex: 1; /* Equal width for buttons */
+        }
+    </style>
+</head>
+<body>
+    <div id="welcome-page">
+        <h1 class="h1_welcome">Chaine d'Alerte Generator</h1>
+        <img id="logo" src="logo.png" alt="Logo">
+        <br>
+        <button onclick="startDataEntry()">Generate Chaine d'Alerte</button>
+        <a href="page2.html"><button>Chaine d'alerte trees</button></a>
+    </div>
+
+    <div id="data-entry-page" style="display: none;">
+        <div id="container">
+            <h1 style="padding-top: 50px;">Chaine d'Alerte Equipe <span id="equipeNumber"></span></h1>
+            <div id="logo2"> 
+                <img src="logo.png" alt="Logo"> <!-- Move the logo here -->
+            </div>
+            <div id="table-container"></div>
+            <div class="button-container">
+                <button class="download-btn green" onclick="exportTableToExcel()" style="display: none;">Download as Excel</button>
+                <div class="button-group">
+                    <button class="regenerate-btn" onclick="regenerateChaine()">Regenerate Chaine d'Alerte</button>
+                    <button class="home-btn" onclick="returnToWelcomePage()">Return to Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startDataEntry() {
+            document.getElementById("welcome-page").style.display = "none";
+            document.getElementById("data-entry-page").style.display = "block";
+            promptEquipeNumber();
+        }
+
+        function returnToWelcomePage() {
+            document.getElementById("data-entry-page").style.display = "none";
+            document.getElementById("welcome-page").style.display = "block";
+        }
+
+        function regenerateChaine() {
+            returnToWelcomePage();
+            startDataEntry();
+        }
+
+        // Your existing JavaScript functions here
+        function promptEquipeNumber() {
+            var equipeNumber = parseInt(prompt("Enter your equipe (1 to 5):"));
+            if (equipeNumber >= 1 && equipeNumber <= 5) {
+                document.getElementById("equipeNumber").innerText = equipeNumber;
+                promptRescuersNumber();
+            } else {
+                alert("Invalid equipe number. Please enter a number between 1 and 5.");
+                promptEquipeNumber();
+            }
+        }
+
+        // Function to prompt user for the number of rescuers
+        function promptRescuersNumber() {
+            var number = parseInt(prompt("Enter the number of rescuers (between 10 and 25):"));
+            if (number >= 10 && number <= 25) {
+                promptRescuerNames(number);
+            } else {
+                alert("Invalid number of rescuers. Please enter a number between 10 and 25.");
+                promptRescuersNumber();
+            }
+        }
+
+        // Function to prompt user for rescuer names
+        function promptRescuerNames(number) {
+            var names = [];
+            for (var i = 1; i <= number; i++) {
+                var name = prompt("Priority " + i + " name:");
+                if (!name.trim()) {
+                    alert("Name cannot be empty. Please enter a name for Priority " + i + ".");
+                    i--; // Decrement i to re-prompt for the current priority
+                } else {
+                    names.push(name);
+                    window['name' + i] = name; // Dynamically create variables like name1, name2, etc.
+                }
+            }
+            if (number == 10) {
+                generateTable10(names);
+            }
+            else if(number == 11){
+                    generateTable11(names);
+                }
+                else if(number == 12){
+                    generateTable12(names);
+                }
+                else if(number == 13){
+                    generateTable13(names);
+                }
+                else if(number == 14){
+                    generateTable14(names);
+                }
+                else if(number == 15){
+                    generateTable15(names);
+                }
+                else if(number == 16){
+                    generateTable16(names);
+                }
+                else if(number == 17){
+                    generateTable17(names);
+                }
+                else if(number == 18){
+                    generateTable18(names);
+                }
+                else if(number == 19){
+                    generateTable19(names);
+                }
+                else if(number == 20){
+                    generateTable20(names);
+                }
+                else if(number == 21){
+                    generateTable21(names);
+                }
+                else if(number == 22){
+                    generateTable22(names);
+                }
+                else if(number == 23){
+                    generateTable23(names);
+                }
+                else if(number == 24){
+                    generateTable24(names);
+                }
+                else if(number == 25){
+                    generateTable25(names);
+                } 
+            }
+        
+
+        // Function to generate table
+        function generateTable10(names) {
+            var tableHtml = "<table id='table-data'>";
+            tableHtml += "<tr><th style='width: 200px; background-color: grey; color: black; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; color: black; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; color: black; font-weight: bold;'>Call 2</th></tr>";
+            tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[2] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[1] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[8] + "</td><td>" + names[4] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[8] + "</td><td>" + names[9] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[6] + "</td><td>" + names[0] + "</td></tr>";
+            tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[7] + "</td><td>" + names[0] + "</td></tr>";
+            tableHtml += "</table>";
+            document.getElementById("table-container").innerHTML = tableHtml;
+            document.querySelector('.download-btn').style.display = 'inline-block';
+        }
+
+        function generateTable11(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[8] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[8] + "</td><td>" + names[3] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[6] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[9] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[5] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[7] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable12(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[8] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[10] + "</td><td>" + names[3] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[4] + "</td><td>" + names[9] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[6] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[7] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[8] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[5] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable13(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[5] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[7] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[4] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[9] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[3] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[12] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[11] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[7] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[5] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[9] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable14(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[8] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[10] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[2] + "</td><td>" + names[9] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[4] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[3] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[5] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[6] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[10] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[8] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable15(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[5] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[6] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[12] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[2] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[12] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[14] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[13] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[8] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[1] + "</td><td>" + names[3] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[10] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[7] + "</td><td>" + names[9] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+    
+            function generateTable16(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[5] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[11] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[13] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[5] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[11] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[13] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[1] + "</td><td>" + names[3] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[4] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[8] + "</td><td>" + names[15] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[10] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[9] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable17(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[5] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[11] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[13] + "</td><td>" + names[16] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[5] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[11] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[13] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[14] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[7] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[15] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[16] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[9] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable18(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[5] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[10] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[13] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[16] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[2] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[6] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[17] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[12] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[15] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[9] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[14] + "</td><td>" + names[17] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[11] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[17] + "</td><td>" + names[7] + "</td><td>" + names[16] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable19(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[5] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[11] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[9] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[13] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[16] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[2] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[17] + "</td><td>" + names[18] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[1] + "</td><td>" + names[3] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[6] + "</td><td>" + names[9] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[10] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[4] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[8] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[14] + "</td><td>" + names[17] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[18] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[17] + "</td><td>" + names[12] + "</td><td>" + names[16] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[18] + "</td><td>" + names[15] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable20(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[8] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[9] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[10] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[16] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[17] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[18] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[19] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[1] + "</td><td>" + names[9] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[4] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[3] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[12] + "</td><td>" + names[18] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[13] + "</td><td>" + names[15] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[17] + "</td><td>" + names[16] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[18] + "</td><td>" + names[19] + "</td><td>" + names[17] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[19] + "</td><td>" + names[14] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable21(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[8] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[9] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[10] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[16] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[17] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[18] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[19] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[20] + "</td><td>" + names[3] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[8] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[7] + "</td><td>" + names[9] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[12] + "</td><td>" + names[18] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[11] + "</td><td>" + names[19] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[17] + "</td><td>" + names[16] + "</td><td>" + names[20] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[18] + "</td><td>" + names[15] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[19] + "</td><td>" + names[14] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[20] + "</td><td>" + names[13] + "</td><td>" + names[17] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable22(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[5] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[6] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[10] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[13] + "</td><td>" + names[15] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[14] + "</td><td>" + names[16] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[17] + "</td><td>" + names[18] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[2] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[19] + "</td><td>" + names[20] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[7] + "</td><td>" + names[10] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[21] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[12] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[16] + "</td><td>" + names[19] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[6] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[17] + "</td><td>" + names[20] + "</td><td>" + names[21] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[18] + "</td><td>" + names[17] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[19] + "</td><td>" + names[9] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[20] + "</td><td>" + names[13] + "</td><td>" + names[15] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[21] + "</td><td>" + names[18] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable23(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[8] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[9] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[10] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[16] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[17] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[18] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[19] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[20] + "</td><td>" + names[3] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[21] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[22] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[10] + "</td><td>" + names[18] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[9] + "</td><td>" + names[17] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[17] + "</td><td>" + names[14] + "</td><td>" + names[20] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[18] + "</td><td>" + names[13] + "</td><td>" + names[21] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[19] + "</td><td>" + names[12] + "</td><td>" + names[22] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[20] + "</td><td>" + names[11] + "</td><td>" + names[19] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[21] + "</td><td>" + names[16] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[22] + "</td><td>" + names[15] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable24(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[4] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[7] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[8] + "</td><td>" + names[12] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[10] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[23] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[17] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[19] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[21] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[16] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[11] + "</td><td>" + names[3] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[20] + "</td><td>" + names[5] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[22] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[8] + "</td><td>" + names[17] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[10] + "</td><td>" + names[19] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[17] + "</td><td>" + names[11] + "</td><td>" + names[20] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[18] + "</td><td>" + names[12] + "</td><td>" + names[21] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[19] + "</td><td>" + names[13] + "</td><td>" + names[22] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[20] + "</td><td>" + names[4] + "</td><td>" + names[23] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[21] + "</td><td>" + names[15] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[22] + "</td><td>" + names[16] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[23] + "</td><td>" + names[9] + "</td><td>" + names[18] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+            function generateTable25(names) {
+                var tableHtml = "<table id='table-data'>";
+                tableHtml += "<tr><th style='width: 200px; background-color: grey; font-weight: bold;'>Caller</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 1</th><th style='width: 200px; background-color: grey; font-weight: bold;'>Call 2</th></tr>";
+                tableHtml += "<tr><td>" + names[0] + "</td><td>" + names[1] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[1] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[2] + "</td><td>" + names[6] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[3] + "</td><td>" + names[5] + "</td><td>" + names[8] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[4] + "</td><td>" + names[9] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[5] + "</td><td>" + names[12] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[6] + "</td><td>" + names[10] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[7] + "</td><td>" + names[15] + "</td><td>" + names[16] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[8] + "</td><td>" + names[17] + "</td><td>" + names[18] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[9] + "</td><td>" + names[19] + "</td><td>" + names[2] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[10] + "</td><td>" + names[20] + "</td><td>" + names[21] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[11] + "</td><td>" + names[6] + "</td><td>" + names[7] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[12] + "</td><td>" + names[10] + "</td><td>" + names[13] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[13] + "</td><td>" + names[22] + "</td><td>" + names[23] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[14] + "</td><td>" + names[15] + "</td><td>" + names[16] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[15] + "</td><td>" + names[24] + "</td><td>" + names[1] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[16] + "</td><td>" + names[3] + "</td><td>" + names[4] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[17] + "</td><td>" + names[20] + "</td><td>" + names[21] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[18] + "</td><td>" + names[22] + "</td><td>" + names[24] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[19] + "</td><td>" + names[23] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[20] + "</td><td>" + names[5] + "</td><td>" + names[6] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[21] + "</td><td>" + names[9] + "</td><td>" + names[11] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[22] + "</td><td>" + names[12] + "</td><td>" + names[14] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[23] + "</td><td>" + names[17] + "</td><td>" + names[18] + "</td></tr>";
+                tableHtml += "<tr><td>" + names[24] + "</td><td>" + names[19] + "</td><td>" + names[0] + "</td></tr>";
+                tableHtml += "</table>";
+                document.getElementById("table-container").innerHTML = tableHtml;
+                document.querySelector('.download-btn').style.display = 'inline-block';
+                }
+
+    </script>
+</body>
+</html>
